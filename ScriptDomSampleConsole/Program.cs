@@ -41,7 +41,8 @@ FROM
     AND e.column_b = a.column_b
 WHERE
         a.column_a = @column_a
-    AND (a.column_f < '3' OR a.column_f > '3')";
+    AND (a.column_f < '3' OR a.column_f > '3')
+ORDER BY a.column_a, e.column_b desc";
 
         public static void Main(string[] args)
         {
@@ -56,6 +57,7 @@ WHERE
 
             if (errors.Count > 0)
             {
+                Console.Error.WriteLine("===== Parse Error =====");
                 foreach (ParseError errorItem in errors)
                 {
                     Console.Error.WriteLine(errorItem.Message);
@@ -63,6 +65,7 @@ WHERE
                 return;
             }
 
+            Console.WriteLine("===== Parse Success =====");
             MySampleVisitor visitor = new MySampleVisitor(SQL);
             parseResult.Accept(visitor);
         }
